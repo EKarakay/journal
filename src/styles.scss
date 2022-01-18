@@ -1,0 +1,30 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap");
+@import "../node_modules/ag-grid-community/dist/styles/ag-grid.css";
+@import "../node_modules/ag-grid-community/dist/styles/ag-theme-alpine.min.css";
+
+html {
+  font-family: 'Roboto', sans-serif;
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.ag-theme-alpine {
+  --ag-header-background-color: #c6cacd;
+  --ag-row-hover-color: #dff1f1;
+  --ag-selected-row-background-color: #dff1f1;
+  --ag-odd-row-background-color: null;
+
+  .ag-cell {
+    border: 1px solid #c6cacd;
+  }
+
+  .ag-row {
+    border-bottom: transparent;
+  }
+}
+

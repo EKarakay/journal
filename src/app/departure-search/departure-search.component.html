@@ -1,0 +1,121 @@
+<div class="container">
+  <form [formGroup]="searchFormGroup" class="form">
+    <div *ngIf="isVisibleFilter">
+      <div class="filter-block">
+
+        <div class="inline-block">
+          <label>Номер отправления<input (keyup)="onInput()" formControlName="searchInput" type="text"></label>
+        </div>
+
+        <div class="inline-block">
+            <label for="search_by_type">Тип<select class="select-custom" formControlName="searchType" id="search_by_type">
+              <option>Все</option>
+              <ng-template [ngForOf]="types" let-type ngFor>
+              <option *ngIf="type === 'Доставка'; else  elseBlock" checked selected>{{ type }}</option>
+              <ng-template #elseBlock><option>{{ type }}</option></ng-template>
+              </ng-template>
+            </select></label>
+        </div>
+
+        <div class="inline-block">
+            <label for="search_by_status">Статус<select class="select-custom" formControlName="searchStatus" id="search_by_status">
+              <option selected>Все</option>
+              <option *ngFor="let status of statuses">
+                {{ status }}
+              </option>
+            </select></label>
+        </div>
+
+        <div class="inline-block">
+          <label class="container-checkbox" for="search_by_problem">
+            <input checked="checked" formControlName="searchStatusProblem" id="search_by_problem" type="checkbox">
+            <span class="checkmark"></span>
+            Только проблемные
+          </label>
+        </div>
+
+      </div>
+    </div>
+
+  <div class="btn-block">
+    <button (click)="onSearch()" [disabled]="!isVisibleFilter" class="btn btn-green">Найти</button>
+    <button (click)="onClearForm()" [disabled]="!isVisibleFilter" class="btn btn-gray">Очистить</button>
+    <button (click)="onExpandForm()" class="btn btn-menu"><img [style]="transform" src="../../assets/down.ico"></button>
+  </div>
+
+  </form>
+<div class="hr-block"></div>
+<ag-grid-angular
+  (rowSelected)="onRowSelected($event)"
+  [columnDefs]="columnDefs"
+  [defaultColDef]="defaultColDef"
+  [rowData]="rowData"
+  [rowSelection]="rowSelection"
+  [suppressDragLeaveHidesColumns]="true"
+  class="ag-theme-alpine"
+  style="width: 100%; height: 400px; background-color: #c6cacd; margin-bottom: 1rem;"
+>
+</ag-grid-angular>
+
+  <div *ngIf="isVisibleCard"><div class="d-flex">
+
+    <div class="d-flex block">
+
+      <div style="width: 30%">
+        <div class="label">Статус</div>
+        <div class="label">Местонахождение</div>
+        <div class="label">Получатель</div>
+        <div class="label">Моб.телефон</div>
+        <div class="label">Курьер</div>
+        <div class="label">Телефон курьера</div>
+        <div class="label">Примечание</div>
+      </div>
+
+      <div style="width: 70%">
+        <div class="field">{{ rowCount.status }}</div>
+        <div class="field">{{ rowCount.departureDetails.qurrentPosition }}</div>
+        <div class="field">{{ rowCount.receiver.name }}</div>
+        <div class="field">{{ rowCount.receiver.phoneNumber }}</div>
+        <div class="field">{{ rowCount.departureDetails.courierName }}</div>
+        <div class="field">{{ rowCount.departureDetails.courierPhone }}</div>
+        <div class="field">{{ rowCount.departureDetails.note }}</div>
+      </div>
+
+    </div>
+
+    <div class="d-flex block">
+
+      <div style="width: 50%">
+        <div class="label">Номер отправления</div>
+        <div class="label">Тип</div>
+        <div class="label">Отправитель</div>
+        <div class="label">Плательщик</div>
+      </div>
+
+      <div style="width: 50%">
+        <div class="field blue">{{ rowCount.departureDetails.number }}</div>
+        <div class="field">{{ rowCount.type }}</div>
+        <div class="field">{{ rowCount.sender.name }}</div>
+        <div class="field">{{ rowCount.departureDetails.payerName }}</div>
+      </div>
+
+    </div>
+
+    <div class="d-flex block">
+
+      <div style="width: 70%">
+        <div class="label">Дата отправления</div>
+        <div class="label">Дата доставки</div>
+        <div class="label">Срок хранения на складе</div>
+      </div>
+
+      <div style="width: 30%">
+        <div class="field">{{ rowCount.sendingDate }}</div>
+        <div class="field">{{ rowCount.receivingDate }}</div>
+        <div class="field">{{ rowCount.departureDetails.storagePeriod }}</div>
+      </div>
+
+    </div>
+  </div></div>
+</div>
+
